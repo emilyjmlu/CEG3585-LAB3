@@ -19,7 +19,8 @@ class Server implements Runnable {
     public void run() {
         System.out.println("[Server]Starting on port " + port);
         try {
-            Socket client = new ServerSocket(port).accept();
+            ServerSocket socket = new ServerSocket(port);
+            Socket client = socket.accept();
 
             BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream(), "UTF-8"));
             PrintWriter out = new PrintWriter(new OutputStreamWriter(client.getOutputStream(), "UTF-8"), true);
@@ -38,11 +39,12 @@ class Server implements Runnable {
                     }
                     System.out.println("[Server] Received encoded message " + message);
                     System.out.println("[Server] Decoded message is: '" + decode(message) + "'");
-                    out.println("complete");
-                    break;
+                    // out.println("complete");
+                    // break;
                 }
+                out.println("clear-to-send");
             }
-
+            socket.close();
         } catch (IOException e) {
             System.out.println("[Server]An unexpected error has occurred");
         }

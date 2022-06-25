@@ -37,14 +37,18 @@ class Client implements Runnable {
                             input = JOptionPane.showInputDialog(null, "Input a message to encode. Must be 0's and 1's only!", "Message", JOptionPane.INFORMATION_MESSAGE);
                         }
                         out.println(encode(input));
+                        String childComponent = "Original Message: " + input + "\nEncoded message: " + encode(input);
+                        JOptionPane.showMessageDialog(null, childComponent);
+                        System.out.println("Encoded message: " + encode(input));
                         break;
                     case "complete":
                         System.out.println("[Client] Server received B8ZS stream");
                         break inputStream;
                     default:
                         out.println("[Client] Invalid message: " + message);
-                        break;
+                        // break;
                 }
+                out.println("request-to-send");
             }
         } catch (IOException e) {
             e.printStackTrace();
