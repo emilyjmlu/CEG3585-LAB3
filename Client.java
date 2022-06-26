@@ -14,7 +14,6 @@ class Client implements Runnable {
         this.port = port;
     }
 
-
     public void run() {
         System.out.println("[Client] Connecting to localhost on port " + port);
         try {
@@ -28,13 +27,15 @@ class Client implements Runnable {
 
             // getting string from user
             String message;
-            inputStream:
-            while ((message = in.readLine()) != null) {
+            inputStream: while ((message = in.readLine()) != null) {
                 switch (message) {
                     case "clear-to-send":
-                        String input = JOptionPane.showInputDialog(null, "Input a message to encode (0's and 1's only)", "Message", JOptionPane.INFORMATION_MESSAGE);
+                        String input = JOptionPane.showInputDialog(null, "Input a message to encode (0's and 1's only)",
+                                "Message", JOptionPane.INFORMATION_MESSAGE);
                         while (!input.matches("[0-1]+")) {
-                            input = JOptionPane.showInputDialog(null, "Input a message to encode. Must be 0's and 1's only!", "Message", JOptionPane.INFORMATION_MESSAGE);
+                            input = JOptionPane.showInputDialog(null,
+                                    "Input a message to encode. Must be 0's and 1's only!", "Message",
+                                    JOptionPane.INFORMATION_MESSAGE);
                         }
                         out.println(encode(input));
                         String childComponent = "Original Message: " + input + "\nEncoded message: " + encode(input);
@@ -55,36 +56,35 @@ class Client implements Runnable {
         }
         System.out.println("[Client] Complete");
     }
-    
+
     public static String encode(String message) {
         String[] toEncode = message.split("");
 
         boolean negativePolarity = true;
         String converted = "";
 
-        for(int i = 0; i < toEncode.length; i++) {
-        	// if the value is 1
+        for (int i = 0; i < toEncode.length; i++) {
+            // if the value is 1
             if (toEncode[i].equals("1")) {
                 negativePolarity = !negativePolarity;
                 converted += negativePolarity ? "-" : "+";
                 // if the value is 0
-            } else if(toEncode[i].equals("0")) {
-            	// if a string of 7 following does not exist
-                if (i+7 >= toEncode.length) {
+            } else if (toEncode[i].equals("0")) {
+                // if a string of 7 following does not exist
+                if (i + 7 >= toEncode.length) {
                     converted += "0";
-                // if a string of 7 exists
+                    // if a string of 7 exists
                 } else {
-                    if (toEncode[i+1].equals("0") && toEncode[i+2].equals("0") && toEncode[i+3].equals("0") && 
-                        toEncode[i+4].equals("0") && toEncode[i+5].equals("0") && toEncode[i+6].equals("0") && 
-                        toEncode[i+7].equals("0")) {
+                    if (toEncode[i + 1].equals("0") && toEncode[i + 2].equals("0") && toEncode[i + 3].equals("0") &&
+                            toEncode[i + 4].equals("0") && toEncode[i + 5].equals("0") && toEncode[i + 6].equals("0") &&
+                            toEncode[i + 7].equals("0")) {
                         i += 7;
                         if (negativePolarity) {
-                                converted += "000-+0+-";
+                            converted += "000-+0+-";
                         } else {
-                                converted += "000+-0-+";
-                        } 
-                    }
-                    else {
+                            converted += "000+-0-+";
+                        }
+                    } else {
                         converted += "0";
                     }
                 }
@@ -92,12 +92,9 @@ class Client implements Runnable {
         }
         return converted;
     }
-    
- // start client
+
+    // start client
     public static void main(String[] args) {
         new Thread(new Client()).start();
     }
-
-
-
 }

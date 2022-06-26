@@ -39,8 +39,6 @@ class Server implements Runnable {
                     }
                     System.out.println("[Server] Received encoded message " + message);
                     System.out.println("[Server] Decoded message is: '" + decode(message) + "'");
-                    // out.println("complete");
-                    // break;
                 }
                 out.println("clear-to-send");
             }
@@ -50,7 +48,7 @@ class Server implements Runnable {
         }
         System.out.println("[Server] Finished");
     }
-    
+
     // function to decode message
     public static String decode(String message) {
         // replace the message with 0s and 1s
@@ -58,7 +56,7 @@ class Server implements Runnable {
                 .replace("000+-0-+", "00000000")
                 .replaceAll("[^0]", "1");
     }
-    
+
     // start server
     public static void main(String[] args) {
         new Thread(new Server()).start();
